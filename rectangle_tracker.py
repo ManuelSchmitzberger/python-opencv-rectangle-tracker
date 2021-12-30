@@ -78,9 +78,9 @@ def draw_polygon(im, vertices, vertex_colors=None, edge_colors=None,
             startpt = vertices[(i - 1) % N]
             endpt = vertices[i]
             if draw_vertices:
-                cv2.circle(im2, startpt, 3, vertex_colors[(i - 1) % N], -1)
+                cv2.circle(im2, (int(startpt[0]), int(startpt[1])), 3, vertex_colors[(i - 1) % N], -1)
             if draw_edges:
-                cv2.line(im2, startpt, endpt, edge_colors[(i - 1) % N], 2)
+                cv2.line(im2, (int(startpt[0]), int(startpt[1])), (int(endpt[0]), int(endpt[1])), edge_colors[(i - 1) % N], 2)
     if display:
         cv2.imshow(title, im2)
         # Note: `0xFF == ord('q')`is apparently necessary for 64bit machines
@@ -90,7 +90,7 @@ def draw_polygon(im, vertices, vertex_colors=None, edge_colors=None,
 
 
 def run_main():
-    
+
     # Initialize some variables
     frame = None
     old_homog = None
@@ -98,8 +98,6 @@ def run_main():
     corner_history = []
 
     video_feed = cv2.VideoCapture(VIDEO_FILE_LOCATION)
-    video_feed.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, FRAME_WIDTH)
-    video_feed.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, FRAME_HEIGHT)
 
     frame_count = 0
     fps_time = time()
@@ -199,7 +197,7 @@ def run_main():
             # check ordering
             def cyclist(lst, k):
                 if k:
-                    return [lst[(i+k)%len(lst)] for i in xrange(len(lst))]
+                    return [lst[(i+k)%len(lst)] for i in range(len(lst))]
                 return lst
 
             def _order_dist(offset):
